@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Security Database Systems</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Home Security Database Systems</h1>
+            <p>Enhancing Safety Through Data Management</p>
+        </div>
+    </header>
+
+    <nav id="navbar">
+        <div class="container">
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#components">Components</a></li>
+                <li><a href="#structure">Structure</a></li>
+                <li><a href="#operations">Operations</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#future">Future Trends</a></li>
+                <li><a href="simulation.html">Database Simulation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="introduction">
+            <h2>Introduction to Home Security Databases</h2>
+            <p>A home security database is a structured collection of data that stores and manages information related to a home security system. It plays a crucial role in modern security systems by organizing and providing quick access to vital security information.</p>
+            <div class="image-container">
+                <img src="C:\Users\ADREX 1\Desktop\MAT 122\Images\Intro.webp" alt="Home Security System Dashboard" class="section-image" width="600" height="400">
+            </div>
+        </section>
+
+        <section id="components">
+            <h2>Key Components</h2>
+            <ul>
+                <li>User information</li>
+                <li>Device inventory</li>
+                <li>Event logs</li>
+                <li>Access control data</li>
+            </ul>
+            <h3>Example Database Schema</h3>
+            <pre><code class="language-sql">
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Username VARCHAR(50),
+    Password VARCHAR(255),
+    AccessLevel INT
+);
+
+CREATE TABLE Devices (
+    DeviceID INT PRIMARY KEY,
+    DeviceType VARCHAR(50),
+    Location VARCHAR(100),
+    Status VARCHAR(20)
+);
+
+CREATE TABLE Events (
+    EventID INT PRIMARY KEY,
+    DeviceID INT,
+    EventType VARCHAR(50),
+    Timestamp DATETIME,
+    FOREIGN KEY (DeviceID) REFERENCES Devices(DeviceID)
+);
+            </code></pre>
+        </section>
+
+        <section id="structure">
+            <h2>Database Structure</h2>
+            <p>The structure of a home security database typically includes entities such as Users, Devices, Events, and Access Points. These entities are interrelated, forming a comprehensive system for managing home security data.</p>
+            <div class="image-container">
+                <img src="C:\Users\ADREX 1\Desktop\MAT 122\Images\DBstructure.webp" alt="Entity-Relationship Diagram" class="section-image" width="600" height="400">
+            </div>
+        </section>
+
+        <section id="operations">
+            <h2>CRUD Operations</h2>
+            <ul>
+                <li><strong>Create:</strong> Adding new users or devices</li>
+                <li><strong>Read:</strong> Retrieving event logs or user information</li>
+                <li><strong>Update:</strong> Modifying access permissions</li>
+                <li><strong>Delete:</strong> Removing outdated records</li>
+            </ul>
+            <h3>Example CRUD Operations</h3>
+            <pre><code class="language-sql">
+-- Create: Insert a new user
+INSERT INTO Users (Username, Password, AccessLevel) 
+VALUES ('john_doe', 'hashed_password', 2);
+
+-- Read: Retrieve all events for a specific device
+SELECT * FROM Events WHERE DeviceID = 1;
+
+-- Update: Change a device's status
+UPDATE Devices SET Status = 'Offline' WHERE DeviceID = 3;
+
+-- Delete: Remove an old event
+DELETE FROM Events WHERE Timestamp < '2023-01-01';
+            </code></pre>
+        </section>
+
+        <section id="security">
+            <h2>Data Security Measures</h2>
+            <ul>
+                <li>Encryption methods</li>
+                <li>Access control</li>
+                <li>Regular backups</li>
+                <li>Audit trails</li>
+            </ul>
+            <h3>Example Encryption Function</h3>
+            <pre><code class="language-python">
+import bcrypt
+
+def hash_password(password):
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed.decode('utf-8')
+
+def check_password(password, hashed):
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+            </code></pre>
+        </section>
+
+        <section id="future">
+            <h2>Future Trends</h2>
+            <ul>
+                <li>AI and machine learning integration</li>
+                <li>Blockchain for enhanced security</li>
+                <li>Cloud-based solutions</li>
+            </ul>
+            <div class="image-container">
+                <img src="C:\Users\ADREX 1\Desktop\MAT 122\Images\FuturesTreds.webp" alt="Future Smart Home Security" class="section-image" width="600" height="400">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Home Security Database Systems. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Database Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Smart Home Database Project</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#erd">ERD</a></li>
+            <li><a href="#sql">SQL Commands</a></li>
+            <li><a href="#data">Sample Data</a></li>
+            <li><a href="#query">Query Examples</a></li>
+            <li><a href="#normalization">Normalization</a></li>
+            <li><a href="#advanced">Advanced Concepts</a></li>
+            <li><a href="#summary">Summary</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>A database is a structured collection of data stored electronically. Databases are managed by Database Management Systems (DBMS).</p>
+        </section>
+        <section id="erd">
+            <h2>Entity-Relationship Diagram (ERD)</h2>
+            <img src="https://i.imgur.com/2XbNsVJ.png" alt="ERD Diagram">
+        </section>
+        <section id="sql">
+            <h2>SQL Commands to Create Database and Tables</h2>
+            <pre>
+<code>
+CREATE DATABASE SmartHome;
+USE SmartHome;
+
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Rooms (
+    RoomID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE Devices (
+    DeviceID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Type VARCHAR(50),
+    RoomID INT,
+    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
+);
+
+CREATE TABLE DeviceLogs (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    DeviceID INT,
+    Timestamp DATETIME,
+    Action VARCHAR(100),
+    FOREIGN KEY (DeviceID) REFERENCES Devices(DeviceID)
+);
+</code>
+            </pre>
+        </section>
+        <section id="data">
+            <h2>Sample Data</h2>
+            <pre>
+<code>
+INSERT INTO Users (Name, Email) VALUES
+('Alice', 'alice@smarthome.com'),
+('Bob', 'bob@smarthome.com');
+
+INSERT INTO Rooms (Name) VALUES
+('Living Room'),
+('Kitchen'),
+('Bedroom');
+
+INSERT INTO Devices (Name, Type, RoomID) VALUES
+('Smart Light', 'Light', 1),
+('Thermostat', 'Temperature Control', 2),
+('Security Camera', 'Camera', 3);
+
+INSERT INTO DeviceLogs (DeviceID, Timestamp, Action) VALUES
+(1, '2024-06-01 08:00:00', 'Turned On'),
+(2, '2024-06-01 09:00:00', 'Temperature Set to 22C'),
+(3, '2024-06-01 10:00:00', 'Motion Detected');
+</code>
+            </pre>
+        </section>
+        <section id="query">
+            <h2>Query Examples</h2>
+            <pre>
+<code>
+SELECT * FROM Users;
+SELECT * FROM Rooms;
+SELECT * FROM Devices;
+SELECT * FROM DeviceLogs;
+SELECT * FROM DeviceLogs WHERE DeviceID = 1;
+</code>
+            </pre>
+        </section>
+        <section id="normalization">
+            <h2>Normalization</h2>
+            <p>Normalization ensures data integrity and reduces redundancy.</p>
+            <ul>
+                <li>1NF: Atomic columns</li>
+                <li>2NF: No partial dependencies</li>
+                <li>3NF: No transitive dependencies</li>
+            </ul>
+        </section>
+        <section id="advanced">
+            <h2>Advanced Concepts</h2>
+            <p>Triggers and Automation:</p>
+            <pre>
+<code>
+CREATE TRIGGER LogDeviceAction
+AFTER INSERT ON Devices
+FOR EACH ROW
+BEGIN
+    INSERT INTO DeviceLogs (DeviceID, Timestamp, Action)
+    VALUES (NEW.DeviceID, NOW(), CONCAT(NEW.Name, ' added to ', (SELECT Name FROM Rooms WHERE RoomID = NEW.RoomID)));
+END;
+</code>
+            </pre>
+            <p>Reporting with Views:</p>
+            <pre>
+<code>
+CREATE VIEW DailyActivityReport AS
+SELECT DeviceID, COUNT(*) AS ActionCount, DATE(Timestamp) AS Date
+FROM DeviceLogs
+GROUP BY DeviceID, Date;
+</code>
+            </pre>
+        </section>
+        <section id="summary">
+            <h2>Summary</h2>
+            <p>We explored the design and management of a Smart Home database, covering entities, SQL commands, sample data, querying, normalization, and advanced concepts.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Name</p>
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
